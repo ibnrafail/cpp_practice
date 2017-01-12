@@ -26,7 +26,7 @@ void strcpy(char *dest, char *source){
  * to contain the concatenated resulting string.
  * @param source - C string to be appended.
  */
-void strcat(char *s1, char *s2) {
+void strcat(char *dest, char *source) {
     while (*dest) dest++;
     while (*source) {
         *dest = *source;
