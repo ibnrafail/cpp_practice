@@ -18,11 +18,8 @@ void bubbleSort(vector<T> &array) {
 	T temp;
 	for (size_t i = array.size() - 1; i > 0; i--) {
 		for (size_t j = 0; j < i; j++) {
-			if (array[j] > array[j+1])
-			{
-				temp = array[j+1];
-				array[j+1] = array[j];
-				array[j] = temp;
+			if (array[j] > array[j+1]) {
+				swap(array[j], array[j+1]);
 			}
 		}
 	}
