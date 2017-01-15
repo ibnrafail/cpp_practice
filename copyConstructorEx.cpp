@@ -1,3 +1,5 @@
+// to be compiled with -fno-elide-constructors
+
 #include <iostream>
 #include <string>
 
@@ -7,8 +9,7 @@ class example {
     int *ptr;
     string name;
 public:
-    example(){}
-    example(int, string);
+    example(int);
     example(const example &);
     ~example();
     int getValue() { return *ptr;}
@@ -16,25 +17,24 @@ public:
     int *getPtr() { return ptr;}
 };
 
-example::example(int value, string name) {
+example::example(int value) {
     ptr = new int(value);
-    this->name = name;
-    cout << name << " object. Allocated memory addressed by ptr "
-                 << ptr << "." << endl;
+    cout << "Create. ptr->" << ptr
+    	 << " value:" << *ptr << endl;
 }
 
 example::example(const example &ob) {
     ptr = new int;
     *ptr = *(ob.ptr);
-    this->name = ob.name + " copy";
-    cout << ob.name  << " object. Copy constructor."
-         << "(ob.ptr=" << ob.ptr << ",ptr" << ptr << ")" << endl;
+    cout << "Copy. ptr->" << ptr
+    	 << " value:" << *ptr
+    	 << " ob.ptr->" << ob.ptr << endl;
 }
 
 example::~example() {
-    cout << this->name << " object. Free memory addressed by ptr "
-         << ptr << "." << endl;
-    delete ptr;
+    cout << "Free. ptr->" << ptr
+    	 << " value:" << *ptr << endl;
+    if (ptr != 0) { delete ptr; ptr = 0; }
 }
 
 void display(example ob) {
@@ -42,8 +42,7 @@ void display(example ob) {
 }
 
 example getAnExampleObject(int value) {
-    example ob(value, "ob");
-    cout << ob.getPtr() << endl;
+    example ob(value);
     return ob;
 }
 
@@ -51,21 +50,30 @@ int main()
 {
     /** Passing example object to function */
     {
-        example a(10, "a");
+        example a(10);
         display(a);
     }
     cout << endl;
 
     /** Copy constructor call in object initialization */
     {
-        example b(20, "b");
-        example c = b;
+        example b(20);
+        example c(b);
     }
     cout << endl;
 
     /** Copy constructor call on function return */
+   	{
+   		// equal to -> example d = getAnExampleObject(30)
+    	example d(getAnExampleObject(30));
+    	cout << *(d.getPtr()) << endl;
+    }
+    cout << endl;
+    
+    /** Assignment */
     {
+    	example e(19);
+    	//e = getAnExampleObject(30); // this'll cause an error
     }
     return 0;
 }
-
