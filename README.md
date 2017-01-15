@@ -1,2 +1,2 @@
-# cpp_sortings
-Contains sorting algorithms implementation in C++.
+# cpp_practice
+Contains my daily practice in C++.
