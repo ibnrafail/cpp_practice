@@ -7,22 +7,24 @@ using namespace std;
 
 class example {
     int *ptr;
-    string name;
 public:
     example(int);
     example(const example &);
     ~example();
+    example operator=(const example &ob);
     int getValue() { return *ptr;}
     void setValue(int value) { *ptr = value;}
     int *getPtr() { return ptr;}
 };
 
+/// Constructor.
 example::example(int value) {
     ptr = new int(value);
     cout << "Create. ptr->" << ptr
     	 << " value:" << *ptr << endl;
 }
 
+/// Copy constructor.
 example::example(const example &ob) {
     ptr = new int;
     *ptr = *(ob.ptr);
@@ -31,16 +33,28 @@ example::example(const example &ob) {
     	 << " ob.ptr->" << ob.ptr << endl;
 }
 
+/// Destructor.
 example::~example() {
     cout << "Free. ptr->" << ptr
     	 << " value:" << *ptr << endl;
     if (ptr != 0) { delete ptr; ptr = 0; }
 }
 
+/// Assignment operator overload.
+example example::operator=(const example &ob) {
+    *(this->ptr) = *(ob.ptr);
+    cout << "operator=. ptr->" << ptr
+    	 << " value:" << *ptr
+    	 << " ob.ptr->" << ob.ptr << endl;
+    return *this;
+}
+
+/// Function that shows passing example object as a param.
 void display(example ob) {
     cout << ob.getValue() << endl;
 }
 
+/// Returns example object.
 example getAnExampleObject(int value) {
     example ob(value);
     return ob;
@@ -70,10 +84,11 @@ int main()
     }
     cout << endl;
     
-    /** Assignment */
+    /** Assignment using overloaded operator */
     {
     	example e(19);
-    	//e = getAnExampleObject(30); // this'll cause an error
+    	example d(20);
+        d = e = getAnExampleObject(30);
     }
     return 0;
 }
