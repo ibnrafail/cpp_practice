@@ -1,15 +1,15 @@
 #include <iostream>
 #include <vector>
+#include <algorithm>
 #include <ctime>
 #include <cstdlib>
 
 using namespace std;
 
 template<class T>
-void showArray(vector<T> &array) {
+void showArray(vector<T> array) {
 	cout << "[";
-	for (size_t i = 0; i < array.size() - 1; i++)
-		cout << array[i] << ", ";
+	for_each(array.begin(), array.end(), [](T e) {cout << e << ", ";});
 	cout << array[array.size() - 1] << "]" << endl;
 }
 
