@@ -11,23 +11,24 @@ using namespace std;
 template<class T>
 void showArray(vector<T> &array) {
 	cout << "[";
-	for (size_t i = 0; i < array.size() - 1; i++)
+	for (auto i = 0; i < array.size() - 1; i++)
 		cout << array[i] << ", ";
 	cout << array[array.size() - 1] << "]" << endl;
 }
 
-void selectSort(vector<int> &array) {
-	int min, indMin;
-	for (size_t i = 0; i < array.size(); i++) {
+template<class T>
+void selectSort(vector<T> &array) {
+	T min;
+	size_t indMin;
+	for (auto i = 0; i < array.size(); i++) {
 		min = array[i]; indMin = i;
-		for (size_t j = i + 1; j < array.size(); j++) {
+		for (auto j = i + 1; j < array.size(); j++) {
 			if (array[j] < min) {
 				min = array[j];
 				indMin = j;
 			}
 		}
-		if (indMin != i)
-			swap(array[i], array[indMin]); /** calling @ref std::swap */
+		if (indMin != i) swap(array[i], array[indMin]); /** calling @ref std::swap */
 	}
 }
 
@@ -36,7 +37,7 @@ int main() {
 	vector<int> array;
 
 	/** Generating numbers from 1 to 10 */
-	for (size_t i = 0; i < 10; i++)
+	for (auto i = 0; i < 10; i++)
 		array.push_back(1 + rand() % 10);
 
 	showArray(array);
